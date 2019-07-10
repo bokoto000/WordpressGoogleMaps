@@ -1384,5 +1384,19 @@
         }
     },
     "theme": "vs-dark",
-    "themeBackground": "#1e1e1e"
+    "themeBackground": "#1e1e1e",
+    "windowsState": {
+        "lastActiveWindow": {
+            "folder": "file:///var/www/wordpress",
+            "backupPath": "/var/www/wordpress/Backups/6ff3d0158d1372de0be98fdeb5a143ee",
+            "uiState": {
+                "mode": 1,
+                "x": 2253,
+                "y": 222,
+                "width": 1340,
+                "height": 768
+            }
+        },
+        "openedWindows": []
+    }
 }
