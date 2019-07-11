@@ -16,20 +16,20 @@ if( ! defined('ABSPATH')){
 
 
 function dh_get_markers(){
+    global $wpdb;
     echo '
     <script>
         var markersDataLat=[';
-    global $wpdb;
-    $row = $wpdb->get_results( "SELECT * FROM googlemaps_locations");
+    $row = $wpdb->get_results( "SELECT * FROM googlemaps_locations_api");
     foreach ( $row as $row ) 
-    { echo $row->len.',';} //$row->your_column_name in table
+    { echo $row->display_lat.',';} //$row->your_column_name in table
     echo     ']</script>';
     echo '
     <script>
         var markersDataLng=[';
-    $row = $wpdb->get_results( "SELECT * FROM googlemaps_locations");
+    $row = $wpdb->get_results( "SELECT * FROM googlemaps_locations_api");
     foreach ( $row as $row ) 
-    { echo $row->lng.',';} //$row->your_column_name in table
+    { echo $row->display_lng.',';} //$row->your_column_name in table
     echo     ']</script>';
 }
 add_action( 'pre_get_posts', 'dh_get_markers');

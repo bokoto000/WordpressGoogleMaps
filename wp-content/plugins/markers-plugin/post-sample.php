@@ -41,7 +41,7 @@ google.maps.event.addDomListener( window, 'load', gmaps_results_initialize );
  */
 function gmaps_results_initialize() {
 	var map = new google.maps.Map( document.getElementById( 'map-canvas' ), {
-		zoom:           7,
+		zoom:           15,
 		center:         new google.maps.LatLng( 33.748995, -84.387982 ),
 	});
 }
@@ -55,7 +55,6 @@ google.maps.event.addDomListener( window, 'load', gmaps_results_initialize );
  *
  * @since    1.0.0
  */
-console.log(markersData);
 function gmaps_results_initialize(data) {
         console.log(data);
         
@@ -64,24 +63,23 @@ function gmaps_results_initialize(data) {
 		return;
 	}
 
-	var map, marker;
 
 	map = new google.maps.Map( document.getElementById( 'map-canvas' ), {
 
 		zoom:           7,
-		center:         new google.maps.LatLng( 43.407403, 24.616180 ),
+		center:         new google.maps.LatLng( markersDataLat[0], markersDataLng[0] ),
 
 	});
+        
 
-        for(i=0;i<markersDataLat.length;i++){
-           console.log(markersDataLat[i]);
-	   marker = new google.maps.Marker({
-
+    for(i=0;i<markersDataLat.length;i++){
+    	console.log(markersDataLat[i]);
+	    marker = new google.maps.Marker({
 		position: new google.maps.LatLng( markersDataLat[i], markersDataLng[i] ),
 		map:      map
 
 	   });
-        }
+    }
 
 	
 }
