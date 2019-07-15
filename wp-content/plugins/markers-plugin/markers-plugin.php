@@ -17,20 +17,27 @@ if( ! defined('ABSPATH')){
 
 function dh_get_markers(){
     global $wpdb;
-    echo '
-    <script>
-        var markersDataLat=[';
-    $row = $wpdb->get_results( "SELECT * FROM googlemaps_locations_api");
+    $rows = $wpdb->get_results( "SELECT * FROM googlemaps_locations_api");
+    echo '<script>var apiData=[';
+    $row = $rows;
     foreach ( $row as $row ) 
-    { echo $row->display_lat.',';} //$row->your_column_name in table
+    { echo '{'.'id:'.$row->id.','.'address:"'.$row->address.'",'.'city:"'.$row->city.'",'.'country:"'.
+        $row->country.'",'.'lat:'.$row->display_lat.','.'lng:'.$row->display_lng.','.'group_sic_code:"'.$row->group_sic_code.
+        '",'.'group_sic_code_ext:"'.$row->group_sic_code_ext.'",'.'group_sic_code_name:"'.$row->group_sic_code_name.
+        '",'.'group_sic_code_name_ext:"'.$row->group_sic_code_name_ext.'"},';} //$row->your_column_name in table
     echo     ']</script>';
-    echo '
-    <script>
-        var markersDataLng=[';
-    $row = $wpdb->get_results( "SELECT * FROM googlemaps_locations_api");
-    foreach ( $row as $row ) 
-    { echo $row->display_lng.',';} //$row->your_column_name in table
+    $countries = $wpdb->get_results( "SELECT DISTINCT country FROM googlemaps_locations_api");
+    $cities = $wpdb->get_results( "SELECT DISTINCT city FROM googlemaps_locations_api");
+    echo '<script> var countries=[';
+    foreach ( $countries as $country ) 
+    { echo '"'.$country->country.'",';} 
     echo     ']</script>';
+    echo '<script> var cities=[';
+    foreach ( $cities as $city ) 
+    { echo '"'.$city->city.'",';} 
+    echo     ']</script>';
+
+
 }
 add_action( 'pre_get_posts', 'dh_get_markers');
 
