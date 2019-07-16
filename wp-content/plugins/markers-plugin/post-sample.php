@@ -102,6 +102,12 @@
     <br> 
     <input type="submit" value="Filter by points">
   </form>
+  <label>There are 
+  </label> 
+  <label id="dataCount"> 
+  </label> 
+  <label> results 
+  </label>
 </div>
 <div id="map-canvas">
 </div>
@@ -148,7 +154,7 @@
     if ( null === document.getElementById( 'map-canvas' ) ) {
       return;
     }
-    var map, marker;
+    var map, marker,infoWindows=[];
     map = new google.maps.Map( document.getElementById( 'map-canvas' ), {
       zoom:           7,
       center:         new google.maps.LatLng(apiData[0].lat, apiData[0].lng ),
@@ -156,11 +162,30 @@
                              );
     if(newFilteredData.toString()=="[object Event]")newFilteredData=apiData;
     for(i=0;i<newFilteredData.length;i++){
+      var content="<div style='min-width:120px'>"
+      +"<h2>"+apiData[i].name+"</h2>"
+      +"<p> Post Code: " +apiData[i].post_code+",</p>"
+      +"<p> Address: " +apiData[i].address+",</p>"
+      +"<p> City: " +apiData[i].city+",</p>"
+      +"<p> Coordinates: Lat: " +apiData[i].lat+"; Lng: "+apiData[i].lng+",</p>"
+      +"</div>";
+      var infowindow = new google.maps.InfoWindow({
+      }
+                                                 );
       marker = new google.maps.Marker({
         position: new google.maps.LatLng( newFilteredData[i].lat, newFilteredData[i].lng ),
-        map:      map
+        map: map,
+        title: apiData[i].name
       }
                                      );
+      google.maps.event.addListener(marker, 'click', function(content){
+        return function(){
+          infowindow.setContent(content);
+          infowindow.open(map, this);
+        }
+      }
+                                    (content));
+      document.getElementById('dataCount').innerHTML = newFilteredData.length;
     }
   }
   function filterByCity(){
@@ -190,11 +215,11 @@
     maxLat=Math.max(aLat,bLat);
     maxLng=Math.max(aLng,bLng);
     for(i=0;i<apiData.length;i++){
-        console.log();
-       if((apiData[i].lng>=minLng&&apiData[i].lng<=maxLng)){
-         if (apiData[i].lat>=minLat&&apiData[i].lat<=maxLat)
-         data.push(apiData[i]);
-        }
+      console.log();
+      if((apiData[i].lng>=minLng&&apiData[i].lng<=maxLng)){
+        if (apiData[i].lat>=minLat&&apiData[i].lat<=maxLat)
+          data.push(apiData[i]);
+      }
     }
     gmaps_results_initialize(data);
   }
